@@ -1,12 +1,13 @@
 const router = require('express').Router();
+const studentsHandlers = require('./handlers/students');
 
 // Students
-router.get('/students', (req, res) => res.send('Hello World!'));
-router.post('/students', (req, res) => res.send('Hello World!'));
+router.get('/students', studentsHandlers.getAllStudents);
+router.post('/students', studentsHandlers.createStudent);
 
-router.get('/students/:id', (req, res) => res.send('Hello World!'));
-router.put('/students/:id', (req, res) => res.send('Hello World!'));
-router.delete('/students/:id', (req, res) => res.send('Hello World!'));
+router.get('/students/:id', studentsHandlers.getStudent);
+router.put('/students/:id', studentsHandlers.updateStudent);
+router.delete('/students/:id', studentsHandlers.removeStudent);
 
 router.post('/students/:id/subjects', (req, res) => res.send('Hello World!'));
 
