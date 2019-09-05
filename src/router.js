@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const studentsHandlers = require('./handlers/students');
-
+const subjectsHandlers = require('./handlers/subjects');
 // Students
 router.get('/students', studentsHandlers.getAllStudents);
 router.post('/students', studentsHandlers.createStudent);
@@ -27,11 +27,11 @@ router.post('/carrers/:id/students', (req, res) => res.send('Hello World!'));
 router.post('/carrers/:id/subjects', (req, res) => res.send('Hello World!'));
 
 // Subjects
-router.get('/subjects', (req, res) => res.send('Hello World!'));
-router.post('/subjects', (req, res) => res.send('Hello World!'));
+router.get('/subjects', subjectsHandlers.getAllSubjects);
+router.post('/subjects', subjectsHandlers.createSubject);
 
-router.get('/subjects/:id', (req, res) => res.send('Hello World!'));
-router.put('/subjects/:id', (req, res) => res.send('Hello World!'));
-router.delete('/subjects/:id', (req, res) => res.send('Hello World!'));
+router.get('/subjects/:id', subjectsHandlers.getSubject);
+router.put('/subjects/:id', subjectsHandlers.updateSubject);
+router.delete('/subjects/:id', subjectsHandlers.removeSubject);
 
 module.exports = router;

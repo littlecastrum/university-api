@@ -14,7 +14,7 @@ async function setupMongo(mongoURI) {
   } catch (err) {
     console.log(mongoErrors[err.name]);
   }
-}
+};
 
 function extractUris(router) {
   if (router.stack.length === 1 && router.stack[0].route === undefined) return [];
@@ -23,7 +23,7 @@ function extractUris(router) {
       return `${acc}\n    ${method.toUpperCase()} ${route.path}`;
     }, '');
   });
-}
+};
 
 function studentFormatter(student) { 
   return {
@@ -34,15 +34,30 @@ function studentFormatter(student) {
     subjects: student.subjects ? student.subjects : [],
     carrer_id: student.carrer_id ? student.carrer_id : null,
   };
-}
+};
 
 function studentsFormatter(students) { 
   return students.map(studentFormatter);
+};
+
+function subjectFormatter(subject) { 
+  return {
+    id: subject._id,
+    name: subject.name,
+    timeslots: subject.timeslots,
+    carrer_id: subject.carrer_id ? subject.carrer_id : null,
+  };
+};
+
+function subjectsFormatter(subjects) {
+  return subjects.map(subjectFormatter);
 }
 
 module.exports = {
   setupMongo,
   extractUris,
   studentFormatter,
-  studentsFormatter
+  studentsFormatter,
+  subjectFormatter,
+  subjectsFormatter
 }

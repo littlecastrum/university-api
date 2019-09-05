@@ -8,10 +8,10 @@ const errorMissingData = {
   status: 400
 }
 
-const errorStudentNotFound = {
-  error: 'Student not found in data base',
+const errorRecordNotFound = (recordId, recordType) => ({
+  error: `${recordType} with ID ${recordId} not found in data base`,
   status: 404
-}
+})
 
 const errorMongoServer = {
   error: 'Unexpected error on server handling request',
@@ -25,7 +25,7 @@ const mongoErrors = {
 module.exports = {
   errorIDNotValid,
   errorMissingData,
-  errorStudentNotFound,
+  errorRecordNotFound,
   errorMongoServer,
   mongoErrors
 }

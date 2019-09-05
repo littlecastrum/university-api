@@ -2,7 +2,7 @@ const moment = require('moment');
 const { Types } = require('mongoose');
 const { Student } = require('../models');
 const { studentFormatter, studentsFormatter } = require('../util');
-const { errorIDNotValid, errorStudentNotFound, errorMongoServer, errorMissingData } = require('../errors');
+const { errorIDNotValid, errorRecordNotFound, errorMongoServer, errorMissingData } = require('../errors');
 
 // GET /students
 async function getAllStudents(req, res) {
@@ -15,22 +15,16 @@ async function getAllStudents(req, res) {
 async function createStudent(req, res) {
   const { name, birthday, address, carrer_id } = req.body;
   if (name && birthday && address) {
-    console.log(birthday);
-    console.log(moment(birthday, 'YYYY-MM-DD').toDate());
     const newStudent = new Student({
       name,
       birthday: moment(birthday, 'YYYY-MM-DD'),
       address,
-      carrer_id: carrer_id
+      carrer_id
     })
     try {
       await newStudent.save();
       res.json(studentFormatter(newStudent))
     } catch(err) {
-      console.log({
-        name: err.name,
-        message: err.message
-      })
       res.send(errorMongoServer)
     }
   } else {
@@ -49,7 +43,7 @@ async function getStudent(req, res) {
   const student = await Student.findById(id);
 
   if (!student) {
-    res.status(404).json(errorStudentNotFound);
+    res.status(404).json(errorRecordNotFound(id, 'Student'));
   }
   
   res.json(studentFormatter(student));
@@ -65,7 +59,7 @@ async function updateStudent(req, res) {
   const student = await Student.findById(id);
 
   if (!student) {
-    res.status(404).json(errorStudentNotFound)
+    res.status(404).json(errorRecordNotFound(id, 'Student'))
   }
   
   const { name, birthday, address, subjects, carrer_id } = req.body;
