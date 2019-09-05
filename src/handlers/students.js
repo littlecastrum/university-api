@@ -1,5 +1,8 @@
 const moment = require('moment');
 const { Types } = require('mongoose');
+const { Student } = require('../models');
+const { studentFormatter, studentsFormatter } = require('../util');
+const { errorIDNotValid, errorStudentNotFound, errorMongoServer, errorMissingData } = require('../errors');
 
 // GET /students
 async function getAllStudents(req, res) {
@@ -12,6 +15,8 @@ async function getAllStudents(req, res) {
 async function createStudent(req, res) {
   const { name, birthday, address, carrer_id } = req.body;
   if (name && birthday && address) {
+    console.log(birthday);
+    console.log(moment(birthday, 'YYYY-MM-DD').toDate());
     const newStudent = new Student({
       name,
       birthday: moment(birthday, 'YYYY-MM-DD'),
@@ -20,16 +25,16 @@ async function createStudent(req, res) {
     })
     try {
       await newStudent.save();
-      res.json(newStudent)
+      res.json(studentFormatter(newStudent))
     } catch(err) {
       console.log({
         name: err.name,
         message: err.message
       })
-      res.send(ErrorMongoServer)
+      res.send(errorMongoServer)
     }
   } else {
-    res.status(400).json(ErrorMissingData)
+    res.status(400).json(errorMissingData)
   }
 }
 
@@ -38,29 +43,29 @@ async function getStudent(req, res) {
   const id = req.params.id;
 
   if (!Types.ObjectId.isValid(id)) {
-    res.status(400).json(ErrorIDNotValid)
+    res.status(400).json(errorIDNotValid)
   }
 
   const student = await Student.findById(id);
 
   if (!student) {
-    res.status(404).json(ErrorStudentNotFound);
+    res.status(404).json(errorStudentNotFound);
   }
   
-  res.json(student);
+  res.json(studentFormatter(student));
 }
 
 // PUT /students/:id
 async function updateStudent(req, res) {
   const id = req.params.id;
   if (!Types.ObjectId.isValid(id)) {
-    res.status(400).json(ErrorIDNotValid)
+    res.status(400).json(errorIDNotValid)
   }
 
   const student = await Student.findById(id);
 
   if (!student) {
-    res.status(404).json(ErrorStudentNotFound)
+    res.status(404).json(errorStudentNotFound)
   }
   
   const { name, birthday, address, subjects, carrer_id } = req.body;
@@ -79,7 +84,7 @@ async function updateStudent(req, res) {
       name: err.name,
       message: err.message
     })
-    res.send(ErrorMongoServer)
+    res.send(errorMongoServer)
   }
 }
 
@@ -87,10 +92,10 @@ async function updateStudent(req, res) {
 async function removeStudent(req, res) {
   const id = req.params.id;
   if (!Types.ObjectId.isValid(id)) {
-    res.status(400).json(ErrorIDNotValid);
+    res.status(400).json(errorIDNotValid);
   }
-  const deleteStudent = await Student.findOneAndDelete(id);
-  res.json(deleteStudent);
+  const deletedStudent = await Student.findOneAndDelete(id);
+  res.json(studentFormatter(deletedStudent));
 }
 
 module.exports = {
