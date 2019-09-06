@@ -13,12 +13,12 @@ async function getAllSubjects(req, res) {
 
 // POST /subjects
 async function createSubject(req, res) {
-  const { name, timeslots, carrer_id } = req.body;
+  const { name, timeslots, career_id } = req.body;
   if (name && timeslots) {
     const newSubject = new Subject({
       name,
       timeslots,
-      carrer_id
+      career_id
     })
     try {
       await newSubject.save();
@@ -61,10 +61,10 @@ async function updateSubject(req, res) {
     res.status(404).json(errorRecordNotFound(id, 'Subject'))
   }
   
-  const { name, timeslots, carrer_id } = req.body;
-  subject.name = name ? name : subject.name;
-  subject.timeslots = timeslots ? timeslots : subject.timeslots;
-  subject.carrer_id = carrer_id ? carrer_id : subject.carrer_id;
+  const { name, timeslots, career_id } = req.body;
+  subject.name = name || subject.name;
+  subject.timeslots = timeslots || subject.timeslots;
+  subject.career_id = career_id || subject.career_id;
 
   try {
     await subject.save();
