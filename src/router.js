@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const studentsHandlers = require('./handlers/students');
 const subjectsHandlers = require('./handlers/subjects');
+const careersHandlers = require('./handlers/careers');
+
 // Students
 router.get('/students', studentsHandlers.getAllStudents);
 router.post('/students', studentsHandlers.createStudent);
@@ -15,21 +17,17 @@ router.get('/students/:id/subjects/:id', (req, res) => res.send('Hello World!'))
 router.put('/students/:id/subjects/:id', (req, res) => res.send('Hello World!'));
 router.delete('/students/:id/subjects/:id', (req, res) => res.send('Hello World!'));
 
-// Carrers
-router.get('/carrers', (req, res) => res.send('Hello World!'));
-router.post('/carrers', (req, res) => res.send('Hello World!'));
-
-router.get('/carrers/:id', (req, res) => res.send('Hello World!'));
-router.put('/carrers/:id', (req, res) => res.send('Hello World!'));
-router.delete('/carrers/:id', (req, res) => res.send('Hello World!'));
-
-router.post('/carrers/:id/students', (req, res) => res.send('Hello World!'));
-router.post('/carrers/:id/subjects', (req, res) => res.send('Hello World!'));
+// careers
+router.get('/careers', careersHandlers.getAllCareers);
+router.post('/careers', careersHandlers.createCareer);
+router.get('/careers/:id', careersHandlers.getCareer);
+router.put('/careers/:id', careersHandlers.updateCareer);
+router.delete('/careers/:id', careersHandlers.removeCareer);
+router.post('/careers/:id/subjects', careersHandlers.addSubjects);
 
 // Subjects
 router.get('/subjects', subjectsHandlers.getAllSubjects);
 router.post('/subjects', subjectsHandlers.createSubject);
-
 router.get('/subjects/:id', subjectsHandlers.getSubject);
 router.put('/subjects/:id', subjectsHandlers.updateSubject);
 router.delete('/subjects/:id', subjectsHandlers.removeSubject);

@@ -29,10 +29,10 @@ function studentFormatter(student) {
   return {
     id: student._id,
     name: student.name,
-    birthday: moment(student.birthday).format('L'),
+    birthday: moment(student.birthday).format('DD/MM/YYYY'),
     address: student.address,
-    subjects: student.subjects ? student.subjects : [],
-    carrer_id: student.carrer_id ? student.carrer_id : null,
+    subjects: student.subjects || [],
+    career_id: student.career_id || null,
   };
 };
 
@@ -45,12 +45,30 @@ function subjectFormatter(subject) {
     id: subject._id,
     name: subject.name,
     timeslots: subject.timeslots,
-    carrer_id: subject.carrer_id ? subject.carrer_id : null,
+    career_id: subject.career_id || null,
   };
 };
 
 function subjectsFormatter(subjects) {
   return subjects.map(subjectFormatter);
+}
+
+function careerFormatter(career) { 
+  return {
+    id: career._id,
+    name: career.name,
+    title: career.title,
+    subjects: career.subjects || [],
+    students: career.students || [],
+  };
+};
+
+function careersFormatter(careers) {
+  return careers.map(careerFormatter);
+}
+
+function validateParams(...args) {
+  return [...args].every(val => Boolean(val));
 }
 
 module.exports = {
@@ -59,5 +77,8 @@ module.exports = {
   studentFormatter,
   studentsFormatter,
   subjectFormatter,
-  subjectsFormatter
+  subjectsFormatter,
+  careerFormatter,
+  careersFormatter,
+  validateParams
 }

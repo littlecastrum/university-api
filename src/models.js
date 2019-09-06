@@ -14,18 +14,18 @@ const StudentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Subject'
   }],
-  carrer_id: {
+  career_id: {
     type: Schema.Types.ObjectId,
-    ref: 'Carrer'
+    ref: 'Career'
   }
 });
 
 const subjectSchema = new Schema({
   name: String,
   timeslots: Number,
-  carrer_id: {
+  career_id: {
     type: Schema.Types.ObjectId,
-    ref: 'Carrer'
+    ref: 'Career'
   }
 });
 
@@ -46,7 +46,7 @@ const studentSubjectSchema = new Schema({
   score: Number
 });
 
-const carrerSchema = new Schema({
+const careerSchema = new Schema({
   name: String,
   title: String,
   subjects: [{
@@ -63,5 +63,5 @@ module.exports = {
   Student: model('Student', StudentSchema),
   Subject: model('Subject', subjectSchema),
   StudentSubject: model('StudentSubject', studentSubjectSchema),
-  Carrer: model('Carrer', carrerSchema)
+  Career: model('Career', careerSchema)
 }
