@@ -23,5 +23,5 @@ For using `docker` there are 3 commands ready to build, run and access the conta
 
 
 ## Todo
-[ ] - Tests
-[ ] - Deployment
+- [ ] Tests
+- [ ] Deployment
