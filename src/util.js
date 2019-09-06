@@ -27,9 +27,10 @@ function extractUris(router) {
 
 function studentFormatter(student) { 
   return {
-    ...student,
     id: student._id,
+    name: student.name,
     birthday: moment(student.birthday).format('DD/MM/YYYY'),
+    address: student.address,
     subjects: student.subjects || [],
     career_id: student.career_id || null,
   };
@@ -41,8 +42,8 @@ function studentsFormatter(students) {
 
 function subjectFormatter(subject) { 
   return {
-    ...subject,
     id: subject._id,
+    timeslots: subject.timeslots,
     career_id: subject.career_id || null,
   };
 };
@@ -53,8 +54,9 @@ function subjectsFormatter(subjects) {
 
 function careerFormatter(career) { 
   return {
-    ...career,
     id: career._id,
+    name: career.name,
+    title: career.title,
     subjects: career.subjects || [],
     students: career.students || [],
   };
@@ -70,8 +72,11 @@ function validateParams(...args) {
 
 function studentSubjectFormatter(studentSubject) { 
   return {
-    ...studentSubject,
     id: student._id,
+    student_id: studentSubject.student_id,
+    subject_id: studentSubject.subject_id,
+    state: studentSubject.state,
+    score: studentSubject.score
   };
 };
 
